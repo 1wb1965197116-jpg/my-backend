@@ -1,26 +1,29 @@
-// server.js
 const express = require('express');
+const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Simple middleware to log requests
-app.use((req, res, next) => {
-  console.log(`Incoming request: ${req.method} ${req.url}`);
-  next();
+app.use(cors());
+app.use(express.json());
+
+// Endpoint to list all Tampermonkey scripts
+app.get('/api/tamper', (req, res) => {
+  const scriptsDir = path.join(__dirname, 'tamper_scripts');
+  if (!fs.existsSync(scriptsDir)) return res.json([]);
+  
+  const files = fs.readdirSync(scriptsDir)
+    .filter(f => f.endsWith('.user.js'))
+    .map(f => ({
+      name: f,
+      content: fs.readFileSync(path.join(scriptsDir, f), 'utf-8')
+    }));
+  
+  res.json(files);
 });
 
-// Health check endpoint
-app.get('/api/healthz', (req, res) => {
-  res.json({ status: 'ok' });
-});
-
-// Main route
-app.get('/', (req, res) => {
-  res.send('Hello from Render! Server is running.');
-});
-
-// Start server
 app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
+  console.log(`Backend running on port ${PORT}`);
 });
