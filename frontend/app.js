@@ -1,9 +1,9 @@
-document.getElementById("fetchBtn").addEventListener("click", async () => {
+document.getElementById('fetch').addEventListener('click', async () => {
   try {
-    const response = await fetch("/"); // backend route
-    const text = await response.text();
-    document.getElementById("message").textContent = text;
+    const res = await fetch('https://my-backend-1-8mtf.onrender.com/api/tamper');
+    const scripts = await res.json();
+    document.getElementById('output').textContent = JSON.stringify(scripts, null, 2);
   } catch (err) {
-    document.getElementById("message").textContent = "Error fetching backend.";
+    document.getElementById('output').textContent = 'Error fetching scripts: ' + err;
   }
 });
