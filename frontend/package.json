@@ -1,0 +1,13 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "Frontend app for my-backend project",
+  "main": "app.js",
+  "scripts": {
+    "start": "echo 'Static frontend, no server needed'",
+    "build": "echo 'No build required'"
+  },
+  "author": "1wb1965197116-jpg",
+  "license": "MIT",
+  "dependencies": {}
+}
